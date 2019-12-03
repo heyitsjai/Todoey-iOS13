@@ -52,6 +52,9 @@ class TodoListViewController: UITableViewController {
             
             //test
             
+            
+            //hi
+            
             self.itemArray.append(textField.text!)
             self.tableView.reloadData()
             
