@@ -12,8 +12,13 @@ class TodoListViewController: UITableViewController {
     
     var itemArray = ["Brandon", "Michelle", "Luan", "Prateek"]
     
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let items = defaults.array(forKey: K.itemArrayKey) as? [String] {
+            itemArray = items
+        }
     }
     
     //MARK: - TableView Data Source Methods
@@ -45,28 +50,23 @@ class TodoListViewController: UITableViewController {
         
         var textField = UITextField()
         
-        let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
-        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+        let alert = UIAlertController(title: K.Alert.addNewItem, message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: K.Alert.add, style: .default) { (action) in
             //what will happen once the user clicks the Add Item button on our UIAlert
             //print(textField.text)
-            
-            //test
-            
-            
-            //hi
-            
             self.itemArray.append(textField.text!)
+            self.defaults.set(self.itemArray, forKey: K.itemArrayKey)
             self.tableView.reloadData()
             
         }
         
         alert.addTextField { (alertTextField) in
-            alertTextField.placeholder = "Create new item"
+            alertTextField.placeholder = K.Alert.placeholder
             textField = alertTextField
         }
         
         alert.addAction(action)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: K.Alert.cancel, style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
         
     }
